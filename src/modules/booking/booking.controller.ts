@@ -29,7 +29,7 @@ export const createBooking = async (req: Request, res: Response) => {
     });
 
     if (overlappingBooking) {
-      res.status(409).json({
+      return res.status(409).json({
         message: "Room is not available for selected dates",
       });
     }
