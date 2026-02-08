@@ -56,7 +56,7 @@ export const verifyPayment = async (req: Request, res: Response) => {
             });
         }
 
-        const booking  = await Booking.findByIdAndUpdate(bookingId,
+        const booking = await Booking.findByIdAndUpdate(bookingId,
             { status: "CONFIRMED" },
             { new: true }
         );
