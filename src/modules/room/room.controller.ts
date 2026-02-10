@@ -3,7 +3,8 @@ import Room from "./room.model";
 
 export const createRoom = async (req: Request, res: Response) => {
   try {
-    const room = await Room.create(req.body);
+    const { hotelId, roomType, pricePerNight, maxGuests, images } = req.body;
+    const room = await Room.create({ hotelId, roomType, pricePerNight, maxGuests, images });
     res.status(201).json(room);
   } catch (err: any) {
     res.status(400).json({ message: err.message });
@@ -11,8 +12,12 @@ export const createRoom = async (req: Request, res: Response) => {
 };
 
 export const getRoomsByHotel = async (req: Request, res: Response) => {
-  const rooms = await Room.find({
-    hotelId: req.params.hotelId,
-  });
-  res.json(rooms);
+  try {
+    const rooms = await Room.find({
+      hotelId: req.params.hotelId,
+    });
+    res.json(rooms);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
 };

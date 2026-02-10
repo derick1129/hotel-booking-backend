@@ -8,7 +8,8 @@ export const register = async (req: Request, res: Response) => {
             req.body.email,
             req.body.password
         );
-        res.status(201).json(user);
+        const { password, ...userWithoutPassword } = user.toObject();
+        res.status(201).json(userWithoutPassword);
     } catch (err: any) {
         res.status(400).json({ message: err.message });
     }
