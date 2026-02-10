@@ -11,7 +11,7 @@ const roomSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    pricePreNight: {
+    pricePerNight: {
       type: Number,
       required: true,
     },

@@ -38,7 +38,7 @@ export const createBooking = async (req: Request, res: Response) => {
       (new Date(checkOut).getTime() - new Date(checkIn).getTime()) /
       (1000 * 60 * 60 * 24);
 
-    const totalPrice = nights * room.pricePreNight;
+    const totalPrice = nights * room.pricePerNight;
 
     const booking = await Booking.create({
       userId,
