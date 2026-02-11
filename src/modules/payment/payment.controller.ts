@@ -13,10 +13,20 @@ export const createPaymentOrder = async (req: Request, res: Response) => {
     try {
         const { bookingId } = req.body;
 
-        const booking = await Booking.findById(bookingId);
-        if (!booking || booking.status !== "PENDING") {
+        const booking = await Booking.findOne({
+            _id: bookingId,
+            userId: req.user!.id
+        });
+
+        if (!booking) {
+            return res.status(404).json({
+                message: "Booking not found"
+            });
+        }
+
+        if (booking.status !== "PENDING") {
             return res.status(400).json({
-                message: "Invalid booking"
+                message: "Booking is not pending payment"
             });
         }
 
@@ -56,10 +66,19 @@ export const verifyPayment = async (req: Request, res: Response) => {
             });
         }
 
-        const booking = await Booking.findByIdAndUpdate(bookingId,
-            { status: "CONFIRMED" },
-            { new: true }
-        );
+        const booking = await Booking.findOne({
+            _id: bookingId,
+            userId: req.user!.id
+        });
+
+        if (!booking) {
+            return res.status(404).json({
+                message: "Booking not found"
+            });
+        }
+
+        booking.status = "CONFIRMED";
+        await booking.save();
 
         res.json({
             message: "Payment successful",
