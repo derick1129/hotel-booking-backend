@@ -85,6 +85,6 @@ export const verifyPayment = async (req: Request, res: Response) => {
             booking
         });
     } catch (err: any) {
-        res.status(500).json({ message: err.message })
+        res.status(500).json({ message: err.message });
     }
-}
+};
