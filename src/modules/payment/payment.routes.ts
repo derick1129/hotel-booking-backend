@@ -4,10 +4,12 @@ import {
   verifyPayment,
 } from "./payment.controller";
 import { protect } from "../../middlewares/auth.middleware";
+import { validate } from "../../middlewares/validate.middleware";
+import { createOrderSchema, verifyPaymentSchema } from "./payment.schema";
 
 const router = Router();
 
-router.post("/create-order", protect, createPaymentOrder);
-router.post("/verify", protect, verifyPayment);
+router.post("/create-order", protect, validate(createOrderSchema), createPaymentOrder);
+router.post("/verify", protect, validate(verifyPaymentSchema), verifyPayment);
 
 export default router;
