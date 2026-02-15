@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import type { ZodSchema } from "zod";
+import type { ZodSchema, ZodIssue } from "zod";
 
 export const validate = (schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -7,7 +7,7 @@ export const validate = (schema: ZodSchema) => {
     if (!result.success) {
       return res.status(400).json({
         message: "Validation failed",
-        errors: result.error.errors.map((err) => ({
+        errors: result.error.issues.map((err: ZodIssue) => ({
           field: err.path.join("."),
           message: err.message,
         })),
